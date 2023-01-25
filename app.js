@@ -8,6 +8,7 @@ const dbConnect = require("./dbconnect");
 const multer = require("multer");
 const imageMod = require("./imageMod");
 const imageModel = imageMod.imageModel
+const upload = require("./multer")
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static("Public"));
@@ -16,17 +17,6 @@ app.set("view engine", "ejs");
 
 dbConnect();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads");
-  },
-  filename: (req, file, cb) => {
-    console.log(file);
-    cb(null, file.fieldname + "-" + Date.now());
-  },
-});
-
-const upload = multer({ storage: storage });
 
 app.route("/")
   .get((req,res)=>{
