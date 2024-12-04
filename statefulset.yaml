@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-statefulset
+spec:
+  serviceName: my-headless-service
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template: 
+    metadata:
+      labels:
+       app: my-app
+    spec:
+      containers:
+      - name: my-app-container
+        image: joekings2k/nodeimage
+        ports:
+        - containerPort: 3000
+          name: web
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+        
+
+
